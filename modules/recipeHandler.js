@@ -21,7 +21,7 @@ module.exports = recipeHandler;
 class FormattedResponse {
     constructor(resObj) {
         this.idMeal = resObj.idMeal,
-        this.strMeal = resObj.srtMeal,
+        this.strMeal = resObj.strMeal,
         this.strCategory = resObj.strCategory,
         this.strArea = resObj.strArea,
         this.strInstructions = resObj.strInstructions,
@@ -57,8 +57,7 @@ class FormattedResponse {
             strMealThumb: this.strMealThumb,
             strTags: this.strTags,
             strYoutube: this.strYoutube,
-            recipeArr: this.recipeArr,
-            ingredients: this.getArr()
+            arrayIngredients: this.getArr()
         };
     }
 }

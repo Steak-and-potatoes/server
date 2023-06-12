@@ -3,8 +3,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const optionsHandler = require('./modules/optionsHandler');
-const recipeHandler = require('./modules/recipeHandler');
+const mongoose = require('mongoose');
+const optionsHandler = require('./modules/optionsHandler.js');
+const recipeHandler = require('./modules/recipeHandler.js');
+const databaseHandler = require('./modules/databaseHandler.js');
+const verifyUser = require('./modules/authorize.js');
 // const mongoose = require("mongoose");
 
 //import global variables
@@ -16,21 +19,24 @@ app.use(cors());
 app.use(express.json());
 
 //connect to mongodb atlas and verify connect is working
-// mongoose.connect(process.env.MONGODB_URL);
-// const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "connection error"));
-// db.once("open", () => console.log("Mongoose is connected"));
+mongoose.connect(process.env.MONGODB_KEY);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => console.log('Mongoose is connected'));
 
 //route handlers
-
 app.get('/', (req, res) => {
     console.log('in the home route');
     res.status(200).send('Hey your default route is working');
 });
 
+app.use(verifyUser);
+
 app.get('/options', optionsHandler);
 
 app.get('/recipe', recipeHandler);
+
+app.get('/recipesAll', databaseHandler.getAllRecipes);
 
 //handle errors
 app.use((err, req, res) => {
