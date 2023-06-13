@@ -3,19 +3,21 @@
 let recipeModel = require('./recipeModel');
 
 
-let databasehandler = {};
+let databaseHandler = {};
 
 
-databasehandler.defaultBooksRoute = (req,res) => {
+databaseHandler.defaultBooksRoute = (req,res) => {
     res.status(200).send('default route working');
 };
 
-databasehandler.getAllRecipes = (req,res) => {
-    let queryObject = {email:req.user.email};
+databaseHandler.getAllRecipes = (req,res) => {
+    let queryObject = {email:req.body.email};
+    console.log(queryObject);
     recipeModel.find(queryObject)
         .then(recipes => res.status(201).json(recipes))
         .catch(err => res.status(501).send(err));
+    
 };
 
 
-module.exports = databasehandler;
+module.exports = databaseHandler;

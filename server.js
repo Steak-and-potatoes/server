@@ -7,8 +7,7 @@ const mongoose = require('mongoose');
 const optionsHandler = require('./modules/optionsHandler.js');
 const recipeHandler = require('./modules/recipeHandler.js');
 const databaseHandler = require('./modules/databaseHandler.js');
-const verifyUser = require('./modules/authorize.js');
-// const mongoose = require("mongoose");
+// const verifyUser = require('./modules/authorize.js');
 
 //import global variables
 const PORT = process.env.PORT;
@@ -30,12 +29,13 @@ app.get('/', (req, res) => {
     res.status(200).send('Hey your default route is working');
 });
 
-app.use(verifyUser);
-
 app.get('/options', optionsHandler);
 
 app.get('/recipe', recipeHandler);
 
+// not going to do verification on the backend will do it on the frontend
+// app.use(verifyUser);
+console.log("reached line 38");
 app.get('/recipesAll', databaseHandler.getAllRecipes);
 
 //handle errors
