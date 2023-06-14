@@ -35,8 +35,11 @@ app.get('/recipe', recipeHandler);
 
 // not going to do verification on the backend will do it on the frontend
 // app.use(verifyUser);
-console.log("reached line 38");
+
 app.get('/recipesAll', databaseHandler.getAllRecipes);
+
+app.put('/modifyRecipe/:id', databaseHandler.modifyRecipe);
+
 
 //handle errors
 app.use((err, req, res) => {
