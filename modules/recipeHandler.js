@@ -20,6 +20,7 @@ module.exports = recipeHandler;
 
 class FormattedResponse {
     constructor(resObj) {
+
         this.idMeal = resObj.idMeal,
         this.strMeal = resObj.strMeal,
         this.strCategory = resObj.strCategory,
@@ -37,7 +38,7 @@ class FormattedResponse {
         for (let i = 1; i <= 100; i++) {
             const ingredient = this.rawRecipe[`strIngredient${i}`];
             const measurement = this.rawRecipe[`strMeasure${i}`];
-            const concatIng = `${measurement} ${ingredient}`; 
+            const concatIng = `${measurement} ${ingredient}`;
             if (ingredient && ingredient !== '' && ingredient !== 'null') {
                 ingredients.push(concatIng);
             } else {
@@ -59,7 +60,9 @@ class FormattedResponse {
             strYoutube: this.strYoutube,
             arrayIngredients: this.getArr()
         };
+
     }
+
 }
 
 
