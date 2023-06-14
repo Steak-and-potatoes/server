@@ -5,6 +5,8 @@ const express = require('express');
 const cors = require('cors');
 const optionsHandler = require('./modules/optionsHandler');
 const recipeHandler = require('./modules/recipeHandler');
+const deleteHandler = require('./modules/deleteHandler');
+
 // const mongoose = require("mongoose");
 
 //import global variables
@@ -31,7 +33,7 @@ app.get('/', (req, res) => {
 app.get('/options', optionsHandler);
 
 app.get('/recipe', recipeHandler);
-
+app.delete('/deleteRecipe/:id', deleteHandler);
 //handle errors
 app.use((err, req, res) => {
     res.status(500).json(err);

@@ -28,6 +28,6 @@ class FormattedResponse {
         this.strMealThumb = resObj.meals[0].strMealThumb,
         this.strTags= resObj.meals[0].strTags,
         this.strYoutube= resObj.meals[0].strYoutube;
-        this.recipeArr= 
     }
+
 }
