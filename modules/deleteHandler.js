@@ -1,16 +1,21 @@
 'use strict';
 require('dotenv').config();
-const axios = require('axios');
-
-const MONGODB_KEY = process.env.MONGODB_KEY;
+const recipeModel = require('./modules/recipeModel');
 
 
-const deleteHandler = async (req) => {
+
+
+const deleteHandler = async (req, res) => {
     try {
         const { id } = req.query;
-        await axios.delete(MONGODB_KEY).deleteOne({_id:id});
+        console.log(id);
+        await recipeModel.findByIdAndDelete(id);
+        res.status(200).send('Recipe Deleted');
+
+
     } catch (err) {
-        console.error(err);
+        res.status(409).send(err);
+
     }
 };
 
