@@ -41,12 +41,9 @@ app.get('/recipe', recipeHandler);
 
 app.get('/recipesAll', databaseHandler.getAllRecipes);
 
+app.put('/modifyRecipe/:id', databaseHandler.modifyRecipe);
+
 app.delete('/deleteRecipe/:id', databaseHandler.deleteRecipeById);
-
-
-
-
-
 
 //handle errors
 app.use((err, req, res) => {
