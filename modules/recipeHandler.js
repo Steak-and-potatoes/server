@@ -7,7 +7,8 @@ const recipeHandler = async (req, res) => {
         const { id } = req.query;
         const url = `http://themealdb.com/api/json/v2/1/lookup.php?i=${id}`;
         const results = await axios.get(url);
-        const formattedData = new FormattedResponse(results.data);
+        const rawData = new FormattedResponse(results.data.meals[0]);
+        const formattedData = rawData.returnObj();
         res.status(200).send(formattedData);
     } catch (err) {
         console.error(err);
@@ -19,15 +20,49 @@ module.exports = recipeHandler;
 
 class FormattedResponse {
     constructor(resObj) {
-        this.idMeal= resObj.meals[0].idMeal,
-        this.strMeal= resObj.meals[0].srtMeal,
-        this.strDrinkAlternate= resObj.meals[0].strDrinkAlternate,
-        this.strCategory = resObj.meals[0].strCategory,
-        this.strArea = resObj.meals[0].strArea,
-        this.strInstructions = resObj.meals[0].strInstructions,
-        this.strMealThumb = resObj.meals[0].strMealThumb,
-        this.strTags= resObj.meals[0].strTags,
-        this.strYoutube= resObj.meals[0].strYoutube;
+
+        this.idMeal = resObj.idMeal,
+        this.strMeal = resObj.strMeal,
+        this.strCategory = resObj.strCategory,
+        this.strArea = resObj.strArea,
+        this.strInstructions = resObj.strInstructions,
+        this.strMealThumb = resObj.strMealThumb,
+        this.strTags = resObj.strTags,
+        this.strYoutube = resObj.strYoutube;
+        this.rawRecipe = resObj;
+        this.ingredients = [];
+        // this.measurements = [];
+    }
+    getArr() {
+        let ingredients = [];
+        for (let i = 1; i <= 100; i++) {
+            const ingredient = this.rawRecipe[`strIngredient${i}`];
+            const measurement = this.rawRecipe[`strMeasure${i}`];
+            const concatIng = `${measurement} ${ingredient}`;
+            if (ingredient && ingredient !== '' && ingredient !== 'null') {
+                ingredients.push(concatIng);
+            } else {
+                break;
+            }
+        }
+        return ingredients;
+    }
+
+    returnObj() {
+        return {
+            idMeal: this.idMeal,
+            strMeal: this.strMeal,
+            strCategory: this.strCategory,
+            strArea: this.strArea,
+            strInstructions: this.strInstructions,
+            strMealThumb: this.strMealThumb,
+            strTags: this.strTags,
+            strYoutube: this.strYoutube,
+            arrayIngredients: this.getArr()
+        };
+
     }
 
 }
+
+

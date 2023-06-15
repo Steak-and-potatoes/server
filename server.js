@@ -3,11 +3,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const optionsHandler = require('./modules/optionsHandler');
-const recipeHandler = require('./modules/recipeHandler');
-const deleteHandler = require('./modules/deleteHandler');
 
-// const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const optionsHandler = require('./modules/optionsHandler.js');
+const recipeHandler = require('./modules/recipeHandler.js');
+const databaseHandler = require('./modules/databaseHandler.js');
+// const verifyUser = require('./modules/authorize.js');
+
 
 //import global variables
 const PORT = process.env.PORT;
@@ -18,22 +20,32 @@ app.use(cors());
 app.use(express.json());
 
 //connect to mongodb atlas and verify connect is working
-// mongoose.connect(process.env.MONGODB_URL);
-// const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "connection error"));
-// db.once("open", () => console.log("Mongoose is connected"));
+mongoose.connect(process.env.MONGODB_KEY);
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => console.log('Mongoose is connected'));
 
 //route handlers
-
 app.get('/', (req, res) => {
-    console.log('in the home route');
     res.status(200).send('Hey your default route is working');
 });
 
 app.get('/options', optionsHandler);
 
 app.get('/recipe', recipeHandler);
-app.delete('/deleteRecipe/:id', deleteHandler);
+
+// not going to do verification on the backend will do it on the frontend
+// app.use(verifyUser);
+
+app.get('/recipesAll', databaseHandler.getAllRecipes);
+
+app.post('/createRecipe', databaseHandler.createRecipe);
+
+app.put('/modifyRecipe/:id', databaseHandler.modifyRecipe);
+
+app.delete('/deleteRecipe/:id', databaseHandler.deleteRecipeById);
+
 //handle errors
 app.use((err, req, res) => {
     res.status(500).json(err);
