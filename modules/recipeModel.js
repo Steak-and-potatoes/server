@@ -9,11 +9,10 @@ let recipeSchema = new mongoose.Schema ({
     strArea:{type: String},
     strInstructions:{type: String},
     strMealThumb:{type: String},
-    strTags:{type: String},
     strYoutube:{type: String},
     arrayIngredients:{type: Array},
-    strUserName:{type: String, require:true},
-    strUserEmail:{type: String, require:true}
+    strUserEmail:{type: String, require:true},
+    strNotes:{type: String}
 });
 
 

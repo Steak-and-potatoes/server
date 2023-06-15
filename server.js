@@ -28,7 +28,6 @@ db.once('open', () => console.log('Mongoose is connected'));
 
 //route handlers
 app.get('/', (req, res) => {
-    console.log('in the home route');
     res.status(200).send('Hey your default route is working');
 });
 
@@ -40,6 +39,8 @@ app.get('/recipe', recipeHandler);
 // app.use(verifyUser);
 
 app.get('/recipesAll', databaseHandler.getAllRecipes);
+
+app.post('/createRecipe', databaseHandler.createRecipe);
 
 app.put('/modifyRecipe/:id', databaseHandler.modifyRecipe);
 
